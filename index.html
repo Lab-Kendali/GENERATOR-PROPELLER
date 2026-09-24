@@ -1,1 +1,731 @@
-index.html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Generator & Propeller Monitoring System</title>
+
+    <style>
+
+        /* ==============================
+           RESET
+        ============================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        /* ==============================
+           BODY
+        ============================== */
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eef3f8;
+            color: #111827;
+        }
+
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        header {
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 20px 15px 24px;
+        }
+
+        header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 20px;
+            color: #dbe4f0;
+        }
+
+
+        /* ==============================
+           CONTAINER
+        ============================== */
+
+        .container {
+            width: 92%;
+            max-width: 1500px;
+            margin: 28px auto;
+        }
+
+
+        /* ==============================
+           PARAMETER CARD
+        ============================== */
+
+        .parameter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .card-title {
+            font-size: 23px;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .parameter-value {
+            font-size: 42px;
+            font-weight: 700;
+            text-align: center;
+            margin: 20px 0 10px;
+        }
+
+        .parameter-unit {
+            text-align: center;
+            font-size: 18px;
+            color: #64748b;
+        }
+
+
+        /* ==============================
+           STATUS
+        ============================== */
+
+        .status-section {
+            margin-top: 24px;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            text-align: center;
+
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .status-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .status {
+            display: inline-block;
+
+            padding: 8px 20px;
+
+            border-radius: 20px;
+
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .status-normal {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+
+        /* ==============================
+           GRAFIK
+        ============================== */
+
+        .chart-section {
+            margin-top: 25px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .chart-card.full {
+            grid-column: 1 / 3;
+        }
+
+        .chart-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 320px !important;
+        }
+
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        footer {
+            text-align: center;
+            margin: 35px 0 20px;
+
+            color: #64748b;
+            font-size: 14px;
+        }
+
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 900px) {
+
+            .parameter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status-section {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-section {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-card.full {
+                grid-column: auto;
+            }
+
+            header h1 {
+                font-size: 25px;
+            }
+
+            header p {
+                font-size: 16px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+    <h1>
+        ⚡ GENERATOR & PROPELLER MONITORING SYSTEM
+    </h1>
+
+    <p>
+        Monitoring Debit Air, Putaran Generator & Torsi Propeler
+    </p>
+
+</header>
+
+
+
+<!-- =========================================================
+     MAIN CONTAINER
+========================================================= -->
+
+<div class="container">
+
+
+    <!-- =====================================================
+         PARAMETER UTAMA
+    ====================================================== -->
+
+    <div class="parameter-grid">
+
+
+        <!-- DEBIT AIR -->
+
+        <div class="card">
+
+            <div class="card-title">
+                💧 Debit Air
+            </div>
+
+            <div
+                id="debitAir"
+                class="parameter-value">
+                12.50
+            </div>
+
+            <div class="parameter-unit">
+                L/min
+            </div>
+
+        </div>
+
+
+
+        <!-- PUTARAN GENERATOR -->
+
+        <div class="card">
+
+            <div class="card-title">
+                🔄 Putaran Generator
+            </div>
+
+            <div
+                id="rpmGenerator"
+                class="parameter-value">
+                1250
+            </div>
+
+            <div class="parameter-unit">
+                RPM
+            </div>
+
+        </div>
+
+
+
+        <!-- TORSI PROPELER -->
+
+        <div class="card">
+
+            <div class="card-title">
+                ⚙️ Torsi Propeler
+            </div>
+
+            <div
+                id="torsiPropeler"
+                class="parameter-value">
+                2.35
+            </div>
+
+            <div class="parameter-unit">
+                N·m
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         STATUS PARAMETER
+    ====================================================== -->
+
+    <div class="status-section">
+
+
+        <!-- STATUS DEBIT -->
+
+        <div class="status-card">
+
+            <div class="status-title">
+                💧 Status Debit Air
+            </div>
+
+            <span
+                id="statusDebit"
+                class="status status-normal">
+                NORMAL
+            </span>
+
+        </div>
+
+
+
+        <!-- STATUS RPM -->
+
+        <div class="status-card">
+
+            <div class="status-title">
+                🔄 Status Generator
+            </div>
+
+            <span
+                id="statusRPM"
+                class="status status-normal">
+                NORMAL
+            </span>
+
+        </div>
+
+
+
+        <!-- STATUS TORSI -->
+
+        <div class="status-card">
+
+            <div class="status-title">
+                ⚙️ Status Torsi
+            </div>
+
+            <span
+                id="statusTorsi"
+                class="status status-normal">
+                NORMAL
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         GRAFIK
+    ====================================================== -->
+
+    <div class="chart-section">
+
+
+        <!-- GRAFIK RPM -->
+
+        <div class="chart-card">
+
+            <div class="chart-title">
+                🔄 Grafik Putaran Generator
+            </div>
+
+            <canvas id="rpmChart"></canvas>
+
+        </div>
+
+
+
+        <!-- GRAFIK DEBIT -->
+
+        <div class="chart-card">
+
+            <div class="chart-title">
+                💧 Grafik Debit Air
+            </div>
+
+            <canvas id="flowChart"></canvas>
+
+        </div>
+
+
+
+        <!-- GRAFIK TORSI -->
+
+        <div class="chart-card full">
+
+            <div class="chart-title">
+                ⚙️ Grafik Torsi Propeler
+            </div>
+
+            <canvas id="torqueChart"></canvas>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    Generator & Propeller Monitoring System
+    <br>
+    ESP32 + Supabase
+
+</footer>
+
+
+
+<!-- =========================================================
+     CHART.JS
+========================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+<script>
+
+    /* ========================================================
+       DATA CONTOH
+       ======================================================== */
+
+    let waktu = [
+        "08:00",
+        "08:05",
+        "08:10",
+        "08:15",
+        "08:20",
+        "08:25",
+        "08:30"
+    ];
+
+
+    let dataRPM = [
+        1100,
+        1150,
+        1200,
+        1250,
+        1230,
+        1270,
+        1250
+    ];
+
+
+    let dataFlow = [
+        10.2,
+        11.1,
+        11.8,
+        12.5,
+        12.1,
+        12.8,
+        12.5
+    ];
+
+
+    let dataTorque = [
+        1.80,
+        1.95,
+        2.10,
+        2.35,
+        2.25,
+        2.40,
+        2.35
+    ];
+
+
+
+    /* ========================================================
+       GRAFIK RPM
+       ======================================================== */
+
+    const rpmChart = new Chart(
+        document.getElementById("rpmChart"),
+        {
+            type: "line",
+
+            data: {
+
+                labels: waktu,
+
+                datasets: [
+                    {
+                        label: "RPM Generator",
+
+                        data: dataRPM,
+
+                        tension: 0.3,
+
+                        borderWidth: 2,
+
+                        pointRadius: 3,
+
+                        fill: false
+                    }
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    y: {
+                        beginAtZero: false,
+
+                        title: {
+                            display: true,
+                            text: "RPM"
+                        }
+                    },
+
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Waktu"
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+
+    /* ========================================================
+       GRAFIK DEBIT AIR
+       ======================================================== */
+
+    const flowChart = new Chart(
+        document.getElementById("flowChart"),
+        {
+            type: "line",
+
+            data: {
+
+                labels: waktu,
+
+                datasets: [
+                    {
+                        label: "Debit Air",
+
+                        data: dataFlow,
+
+                        tension: 0.3,
+
+                        borderWidth: 2,
+
+                        pointRadius: 3,
+
+                        fill: false
+                    }
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        title: {
+                            display: true,
+                            text: "L/min"
+                        }
+
+                    },
+
+                    x: {
+
+                        title: {
+                            display: true,
+                            text: "Waktu"
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+
+    /* ========================================================
+       GRAFIK TORSI
+       ======================================================== */
+
+    const torqueChart = new Chart(
+        document.getElementById("torqueChart"),
+        {
+            type: "line",
+
+            data: {
+
+                labels: waktu,
+
+                datasets: [
+                    {
+                        label: "Torsi Propeler",
+
+                        data: dataTorque,
+
+                        tension: 0.3,
+
+                        borderWidth: 2,
+
+                        pointRadius: 3,
+
+                        fill: false
+                    }
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        title: {
+                            display: true,
+                            text: "N·m"
+                        }
+
+                    },
+
+                    x: {
+
+                        title: {
+                            display: true,
+                            text: "Waktu"
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+</html>
